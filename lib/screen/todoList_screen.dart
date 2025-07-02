@@ -26,7 +26,7 @@ class _TodolistScreenState extends ConsumerState<TodolistScreen> {
   void _addnewTask() {
     Navigator.of(
       context,
-    ).push(MaterialPageRoute(builder: (context) =>const AddnewitemScreen()));
+    ).push(MaterialPageRoute(builder: (context) => const AddnewitemScreen()));
   }
 
   void _delteTask(String id) {
@@ -68,15 +68,19 @@ class _TodolistScreenState extends ConsumerState<TodolistScreen> {
           PopupMenuButton(
             color: Theme.of(context).colorScheme.primaryContainer,
             onSelected: (value) {
-              if(value == "Categories List"){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CategoryListScreen(),));
+              if (value == "Categories List") {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const CategoryListScreen(),
+                  ),
+                );
               }
             },
             itemBuilder: (context) {
               return [
                 const PopupMenuItem<String>(
                   value: "Categories List",
-                  child:  Text("Categories List"),
+                  child: Text("Categories List"),
                 ),
                 const PopupMenuItem<String>(
                   value: "Follow us",
@@ -105,7 +109,7 @@ class _TodolistScreenState extends ConsumerState<TodolistScreen> {
           future: todoItems,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const  CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             if (snapshot.hasError) {
               return Center(child: Text(snapshot.error.toString()));
@@ -117,10 +121,13 @@ class _TodolistScreenState extends ConsumerState<TodolistScreen> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addnewTask,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 10, 15),
+        child: FloatingActionButton(
+          onPressed: _addnewTask,
+          shape: const CircleBorder(),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
