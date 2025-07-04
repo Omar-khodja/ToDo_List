@@ -5,7 +5,7 @@ import 'package:todo_app/screen/todoList_screen.dart';
 
 final kColorscheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 27, 3, 244),
-  brightness: Brightness.dark,
+  brightness: Brightness.light,
 );
 void main() {
   runApp(const ProviderScope(child: MyApp()));
