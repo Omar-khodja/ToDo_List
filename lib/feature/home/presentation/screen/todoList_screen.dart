@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_app/provider/category_provider.dart';
-import 'package:todo_app/provider/todolist_provider.dart';
-import 'package:todo_app/screen/addNewItem_screen.dart';
-import 'package:todo_app/screen/categories_list_screen.dart';
-import 'package:todo_app/widget/todolistscreen_content.dart';
+import 'package:todo_app/feature/home/presentation/components/customdropdownbutton.dart';
+import 'package:todo_app/feature/home/presentation/controller/category_provider.dart';
+import 'package:todo_app/feature/home/presentation/controller/todolist_provider.dart';
+import 'package:todo_app/feature/home/presentation/screen/addNewItem_screen.dart';
+import 'package:todo_app/feature/home/presentation/screen/categories_list_screen.dart';
+import 'package:todo_app/feature/home/presentation/components/todolistscreen_content.dart';
 
 class TodolistScreen extends ConsumerStatefulWidget {
   const TodolistScreen({super.key});
@@ -13,14 +14,13 @@ class TodolistScreen extends ConsumerStatefulWidget {
 }
 
 class _TodolistScreenState extends ConsumerState<TodolistScreen> {
-  late Future<void> todoItems;
-  String? _category;
-
   @override
   void initState() {
     super.initState();
-    todoItems = ref.read(todolist_Notifier.notifier).loadDatebase();
-    ref.read(categoriesNotifier.notifier).loadDatebase();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(todolistNotifierProvider.notifier).loadDatebase();
+      ref.read(categoriesNotifierProvider.notifier).loadDatebase();
+    });
   }
 
   void _addnewTask() {
@@ -30,41 +30,18 @@ class _TodolistScreenState extends ConsumerState<TodolistScreen> {
   }
 
   void _delteTask(String id) {
-    ref.read(todolist_Notifier.notifier).deleteItem(id);
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          "Task Deleted",
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        duration: const Duration(seconds: 3),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      ),
-    );
+    ref.read(todolistNotifierProvider.notifier).deleteItem(id);
   }
 
   @override
   Widget build(BuildContext context) {
-    final todolist = ref.watch(todolist_Notifier);
-    final categories = ref.watch(categoriesNotifier);
+    final todolist = ref.watch(todolistNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Todo List", style: Theme.of(context).textTheme.titleLarge),
         actions: [
-          DropdownButton(
-            dropdownColor: Theme.of(context).colorScheme.primaryContainer,
-            hint: Text("Filter", style: Theme.of(context).textTheme.titleSmall),
-            value: _category,
-            items: categories
-                .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                .toList(),
-            onChanged: (value) {
-              _category = value;
-              ref.read(todolist_Notifier.notifier).filter(value!);
-            },
-          ),
+          Customdropdownbutton(),
           PopupMenuButton(
             color: Theme.of(context).colorScheme.primaryContainer,
             onSelected: (value) {
@@ -103,23 +80,13 @@ class _TodolistScreenState extends ConsumerState<TodolistScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder(
-          future: todoItems,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            }
-            if (snapshot.hasError) {
-              return Center(child: Text(snapshot.error.toString()));
-            }
-            return TodolistscreenContent(
-              todolist: todolist,
-              delteTask: _delteTask,
-            );
-          },
+      body: todolist.when(
+        data: (data) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TodolistscreenContent(todolist: data, delteTask: _delteTask),
         ),
+        error: (error, stackTrace) => Center(child: Text(error.toString())),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 10, 15),

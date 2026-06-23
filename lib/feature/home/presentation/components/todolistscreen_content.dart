@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/Moudel/todo.dart';
-import 'package:todo_app/widget/TodoLIst_widget.dart';
+import 'package:todo_app/feature/home/domain/entities/todo.dart';
+import 'package:todo_app/feature/home/presentation/components/TodoLIst_widget.dart';
 
 class TodolistscreenContent extends StatelessWidget {
   const TodolistscreenContent({super.key, required this.todolist,required this.delteTask});

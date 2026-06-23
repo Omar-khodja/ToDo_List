@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:todo_app/screen/todoList_screen.dart';
+import 'package:todo_app/feature/home/presentation/screen/todoList_screen.dart';
 
 final kColorscheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 27, 3, 244),

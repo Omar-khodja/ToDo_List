@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/provider/category_provider.dart';
+import 'package:todo_app/feature/home/presentation/controller/category_provider.dart';
 
 class CategorieslistWidget extends StatelessWidget {
   const CategorieslistWidget({

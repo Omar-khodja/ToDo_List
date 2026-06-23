@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_app/Moudel/todo.dart';
-import 'package:todo_app/provider/todolist_provider.dart';
+import 'package:todo_app/feature/home/domain/entities/todo.dart';
+import 'package:todo_app/feature/home/presentation/controller/todolist_provider.dart';
 
 class TodolistWidget extends ConsumerWidget {
   const TodolistWidget({super.key, required this.todo});
@@ -13,7 +13,7 @@ class TodolistWidget extends ConsumerWidget {
       color: Theme.of(context).colorScheme.primaryContainer,
       child: ListTile(
         leading: Checkbox(value: todo.isDone, onChanged: (value) {
-          ref.read(todolist_Notifier.notifier).isDone(todo.id);
+          ref.read(todolistNotifierProvider.notifier).isDone(todo.id);
         }),
         title: Text(todo.title, style: Theme.of(context).textTheme.titleMedium!.copyWith(
           decoration: todo.isDone? TextDecoration.lineThrough : TextDecoration.none,

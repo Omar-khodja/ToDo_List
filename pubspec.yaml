@@ -40,6 +40,10 @@ dependencies:
   sqflite: ^2.4.2
   path_provider: ^2.1.5
   path: ^1.9.1
+  dart_either: ^2.1.0
+  equatable: ^2.0.8
+  logger: ^2.7.0
+  fluttertoast: ^9.1.0
 
 dev_dependencies:
   flutter_test:
