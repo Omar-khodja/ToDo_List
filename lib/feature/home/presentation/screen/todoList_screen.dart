@@ -36,12 +36,11 @@ class _TodolistScreenState extends ConsumerState<TodolistScreen> {
   @override
   Widget build(BuildContext context) {
     final todolist = ref.watch(todolistNotifierProvider);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text("Todo List", style: Theme.of(context).textTheme.titleLarge),
+        title: const Text("Todo List"),
         actions: [
-          Customdropdownbutton(),
+          const Customdropdownbutton(),
           PopupMenuButton(
             color: Theme.of(context).colorScheme.primaryContainer,
             onSelected: (value) {
@@ -91,9 +90,13 @@ class _TodolistScreenState extends ConsumerState<TodolistScreen> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 10, 15),
         child: FloatingActionButton(
+          backgroundColor: Theme.of(context).colorScheme.primary,
           onPressed: _addnewTask,
           shape: const CircleBorder(),
-          child: const Icon(Icons.add),
+          child: Icon(
+            Icons.add,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
       ),
     );

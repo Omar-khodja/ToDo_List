@@ -14,13 +14,13 @@ class Todo {
   final String id;
   final String title;
   final String catigory;
-  final DateTime? dueDate;
+  final String? dueDate;
   final bool isDone;
     Todo copyWith({
     String? id,
     String? title,
     String? catigory,
-    DateTime? dueDate,
+    String? dueDate,
     bool? isDone,
   }) {
     return Todo(

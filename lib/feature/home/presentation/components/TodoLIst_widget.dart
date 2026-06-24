@@ -15,7 +15,9 @@ class TodolistWidget extends ConsumerWidget {
         leading: Checkbox(value: todo.isDone, onChanged: (value) {
           ref.read(todolistNotifierProvider.notifier).isDone(todo.id);
         }),
-        title: Text(todo.title, style: Theme.of(context).textTheme.titleMedium!.copyWith(
+        title: Text(
+          todo.title,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
           decoration: todo.isDone? TextDecoration.lineThrough : TextDecoration.none,
            color: todo.isDone
                 ? Theme.of(context).colorScheme.onSurface.withValues(alpha: .5)
@@ -24,6 +26,7 @@ class TodolistWidget extends ConsumerWidget {
         ),
         ),
         subtitle: Text("Category ${todo.catigory}"),
+        trailing: todo.dueDate != null ? Text(todo.dueDate!) : null,
       ),
     );
   }

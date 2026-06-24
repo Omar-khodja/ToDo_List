@@ -8,12 +8,12 @@ class TodoModel extends Todo {
     required super.dueDate,
     super.isDone,
   });
-  factory TodoModel.fromData(Map<String, Object?> data) {
+  factory TodoModel.fromdb(Map<String, Object?> data) {
     return TodoModel(
       id: data["id"] as String,
       title: data["Title"] as String,
       catigory: data["Category"] as String,
-      dueDate: data["DueDate"] != null ? data["DueDate"] as DateTime : null,
+      dueDate: data["dueDate"] as String,
       isDone: data["isDone"] == 1 ? true : false,
     );
   }
@@ -30,7 +30,7 @@ class TodoModel extends Todo {
       "id": id,
       "Title": title,
       "Category": catigory,
-      "DueDate": dueDate,
+      "DueDate": dueDate ?? "",
       "isDone": isDone,
     };
   }

@@ -30,7 +30,9 @@ class TodolistNotifire extends StateNotifier<AsyncValue<List<Todo>>> {
           StackTrace.current,
         );
       },
-      ifRight: (value) => state = AsyncValue.data(value),
+      ifRight: (value) {
+        state = AsyncValue.data(value);
+      },
     );
   }
 
@@ -44,12 +46,11 @@ class TodolistNotifire extends StateNotifier<AsyncValue<List<Todo>>> {
           backgroundColor: Colors.red,
         );
         final current = state.value ?? [];
-        state = AsyncValue.data(current);
+        state = AsyncValue.data([...current, todo]);
       },
       ifRight: (value) {
         Fluttertoast.showToast(msg: "Item added to todoLidt successfully");
-        final current = state.value ?? [];
-        state = AsyncValue.data([...current, todo]);
+        loadDatebase();
       },
     );
   }
@@ -60,6 +61,8 @@ class TodolistNotifire extends StateNotifier<AsyncValue<List<Todo>>> {
       state = AsyncValue.data(
         currentstate.where((element) => element.catigory == category).toList(),
       );
+    } else {
+      loadDatebase();
     }
   }
 
@@ -77,6 +80,7 @@ class TodolistNotifire extends StateNotifier<AsyncValue<List<Todo>>> {
       },
       ifRight: (value) {
         final current = state.value ?? [];
+        Fluttertoast.showToast(msg: "Deleted", backgroundColor: Colors.red);
         state = AsyncValue.data(
           current.where((element) => element.id != id).toList(),
         );
@@ -95,13 +99,13 @@ class TodolistNotifire extends StateNotifier<AsyncValue<List<Todo>>> {
       },
       ifRight: (value) {
         final current = state.value ?? [];
-          state = AsyncValue.data(
-            current.map((element) {
-              if (element.id == id) {
-                return element.copyWith(isDone: !element.isDone);
-              }
-              return element;
-            }).toList(),
+        state = AsyncValue.data(
+          current.map((element) {
+            if (element.id == id) {
+              return element.copyWith(isDone: !element.isDone);
+            }
+            return element;
+          }).toList(),
         );
       },
     );

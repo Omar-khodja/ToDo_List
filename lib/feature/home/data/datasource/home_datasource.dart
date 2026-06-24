@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:todo_app/core/applogger/applogger.dart';
 import 'package:todo_app/core/error/exeptions.dart';
 import 'package:todo_app/feature/home/data/datasource/home_base_datasource.dart';
 import 'package:todo_app/feature/home/data/model/category_model.dart';
@@ -21,6 +22,8 @@ class HomeDatasource implements HomeBaseDatasource {
         await db.execute(
           "CREATE TABLE Category (id TEXT PRIMARY KEY , Title TEXT)",
         );
+        await db.insert("Category", {"id": "All", "Title": "All"});
+
         await db.insert("Category", {"id": "Work", "Title": "Work"});
         await db.insert("Category", {"id": "Home", "Title": "Home"});
         await db.insert("Category", {"id": "Personal", "Title": "Personal"});
@@ -107,7 +110,10 @@ class HomeDatasource implements HomeBaseDatasource {
     try {
       final db = await getDatebase();
       final data = await db.query("TodoList");
-      final todoList = data.map((item) => TodoModel.fromData(item)).toList();
+      final todoList = data.map((item) => TodoModel.fromdb(item)).toList();
+      AppLogger.i(data.toString());
+            AppLogger.i(todoList.first.toString());
+
       return todoList;
     } catch (e) {
       throw DataBaseException(errorMessage: e.toString());
