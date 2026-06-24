@@ -31,6 +31,10 @@ class TodolistNotifire extends StateNotifier<AsyncValue<List<Todo>>> {
         );
       },
       ifRight: (value) {
+        value.sort((a, b) {
+          if (a.isDone == b.isDone) return 0;
+          return a.isDone ? 1 : -1;
+        });
         state = AsyncValue.data(value);
       },
     );
@@ -48,7 +52,7 @@ class TodolistNotifire extends StateNotifier<AsyncValue<List<Todo>>> {
         final current = state.value ?? [];
         state = AsyncValue.data([...current, todo]);
       },
-      ifRight: (value) {
+      ifRight: (value) async {
         Fluttertoast.showToast(msg: "Item added to todoLidt successfully");
         loadDatebase();
       },

@@ -15,6 +15,8 @@ final homeRepoProvider = Provider(
   (ref) => HomeRepo(dataSource: ref.read(baseHomeDateSourceProvider)),
 );
 
+
+//////usecase
 final getCategoryUsecaseProvider = Provider(
   (ref) => GetCategoryUsecase(repo: ref.read(homeRepoProvider)),
 );

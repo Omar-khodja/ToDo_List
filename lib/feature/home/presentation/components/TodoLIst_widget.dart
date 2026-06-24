@@ -25,7 +25,7 @@ class TodolistWidget extends ConsumerWidget {
                 
         ),
         ),
-        subtitle: Text("Category ${todo.catigory}"),
+        subtitle: Text(todo.catigory, style: TextStyle(fontSize: 12)),
         trailing: todo.dueDate != null ? Text(todo.dueDate!) : null,
       ),
     );

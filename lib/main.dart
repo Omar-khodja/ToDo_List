@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/feature/home/presentation/screen/todoList_screen.dart';
 
+
+
 const ColorScheme customColorScheme = ColorScheme(
   brightness: Brightness.light,
 
@@ -50,8 +52,11 @@ const ColorScheme customColorScheme = ColorScheme(
   // Tint
   surfaceTint: Color(0xFF3b82f6),
 );
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
+void main()async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+
+    runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
