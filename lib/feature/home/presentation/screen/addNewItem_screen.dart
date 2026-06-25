@@ -168,7 +168,7 @@ class _AddnewitemScreenState extends ConsumerState<AddnewitemScreen> {
                             pickedTime.minute,
                           );
                           _dueDate.text = DateFormat(
-                            "yyyy-MM-dd HH-MM",
+                            'yyyy-MM-dd HH:mm',
                           ).format(fullDate);
                         }
                         AppLogger.i(_dueDate.text);

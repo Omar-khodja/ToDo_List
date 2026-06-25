@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/core/notification/notificationservice.dart';
 
 import 'package:todo_app/feature/home/data/datasource/home_datasource.dart';
 import 'package:todo_app/feature/home/data/repository/home_repo.dart';
@@ -15,7 +16,10 @@ final homeRepoProvider = Provider(
   (ref) => HomeRepo(dataSource: ref.read(baseHomeDateSourceProvider)),
 );
 
-
+final flitterlocatNotificationProvider = Provider((ref) {
+return Notificationservice();
+} 
+);
 //////usecase
 final getCategoryUsecaseProvider = Provider(
   (ref) => GetCategoryUsecase(repo: ref.read(homeRepoProvider)),

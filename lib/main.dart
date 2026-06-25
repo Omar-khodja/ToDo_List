@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo_app/core/notification/notificationservice.dart';
 import 'package:todo_app/feature/home/presentation/screen/todoList_screen.dart';
-
-
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 const ColorScheme customColorScheme = ColorScheme(
   brightness: Brightness.light,
@@ -35,7 +36,7 @@ const ColorScheme customColorScheme = ColorScheme(
   // Surfaces & backgrounds
   surface: Color.fromARGB(255, 252, 250, 244),
   onSurface: Color(0xFF000000),
-  surfaceContainer:Color.fromARGB(255, 249, 245, 231), 
+  surfaceContainer: Color.fromARGB(255, 249, 245, 231),
   onSurfaceVariant: Color(0xFF475569),
 
   // Outlines & shadows
@@ -52,11 +53,14 @@ const ColorScheme customColorScheme = ColorScheme(
   // Tint
   surfaceTint: Color(0xFF3b82f6),
 );
-void main()async {
-    WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Africa/Algiers'));
 
+  await initializeNotifications();
 
-    runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -89,7 +93,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: lightTheme,
-      
+
       home: const TodolistScreen(),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:todo_app/core/notification/notificationservice.dart';
 
 import 'package:todo_app/feature/home/domain/entities/todo.dart';
 import 'package:todo_app/feature/home/domain/usecase/additem_usecase.dart';
@@ -15,7 +16,9 @@ class TodolistNotifire extends StateNotifier<AsyncValue<List<Todo>>> {
     required this.deleteitemUsecase,
     required this.isDoneUseCase,
     required this.loaddataUsecase,
+    required this.notificationservice,
   }) : super(const AsyncValue.loading());
+  final Notificationservice notificationservice;
   final Additemusecase addItemUseCase;
   final DeleteitemUsecase deleteitemUsecase;
   final IsdoneUsecase isDoneUseCase;
@@ -54,6 +57,9 @@ class TodolistNotifire extends StateNotifier<AsyncValue<List<Todo>>> {
       },
       ifRight: (value) async {
         Fluttertoast.showToast(msg: "Item added to todoLidt successfully");
+        if (todo.dueDate != null) {
+          notificationservice.scheduleTodoNotification(todo);
+        }
         loadDatebase();
       },
     );
@@ -119,6 +125,7 @@ class TodolistNotifire extends StateNotifier<AsyncValue<List<Todo>>> {
 final todolistNotifierProvider =
     StateNotifierProvider<TodolistNotifire, AsyncValue<List<Todo>>>(
       (ref) => TodolistNotifire(
+        notificationservice: ref.read(flitterlocatNotificationProvider),
         addItemUseCase: ref.read(addItemUsecaseProvider),
         deleteitemUsecase: ref.read(deleteItemUsecaseProvider),
         isDoneUseCase: ref.read(isDoneUsecaseProvider),

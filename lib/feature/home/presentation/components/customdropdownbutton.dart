@@ -18,7 +18,12 @@ class _CustomdropdownbuttonState extends ConsumerState<Customdropdownbutton> {
     final categories = ref.watch(categoriesNotifierProvider);
     return categories.when(
       data: (data) => DropdownButton(
-        hint: const Text("Filter"),
+        hint: Text(
+          "Filter",
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium!.copyWith(color: Colors.white),
+        ),
         style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         dropdownColor: Theme.of(context).colorScheme.primary,
         value: category,
